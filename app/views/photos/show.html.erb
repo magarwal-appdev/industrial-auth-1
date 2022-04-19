@@ -1,6 +1,8 @@
 <div class="row mb-4">
   <div class="col-md-6 offset-md-3">
     <%= render @photo %>
+    <!-- @photo.to_partial_path -- it will assume partial view template is singular version of @photo !-->
+    <%#= render partial: "photos/photo", locals: { photo: @photos} %>
   </div>
 </div>
 
