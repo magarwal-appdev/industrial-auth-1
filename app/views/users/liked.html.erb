@@ -4,16 +4,27 @@
   </div>
 </div>
 
-<div class="row mb-2">
-  <div class="col-md-6 offset-md-3">
-    <%= render "users/profile_nav", user: @user %>
-  </div>
-</div>
+<% am_i_follower = @user.followers.pluck(:username).include? current_user.username %>
 
-<% @user.liked_photos.each do |photo| %>
-  <div class="row mb-4">
+<% if !@user.private || am_i_follower || @user == current_user %>
+
+  <div class="row mb-2">
     <div class="col-md-6 offset-md-3">
-      <%= render "photos/photo", photo: photo %>
+      <%= render "users/profile_nav", user: @user %>
     </div>
   </div>
-<% end %>
+
+  <% @user.liked_photos.each do |photo| %>
+    <div class="row mb-4">
+      <div class="col-md-6 offset-md-3">
+        <%= render "photos/photo", photo: photo %>
+      </div>
+    </div>
+  <% end %>
+
+<% else %>
+  <div class="alert alert-secondary text-center">
+    <p class="small my-0 mx-auto"><%= @user.name %> has requested their account to be private</p>
+    <p class="small my-0 mx-auto">Let's respect that and be kind to each other.</p>
+  </div>
+ <% end %>
